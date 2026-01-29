@@ -1,3 +1,7 @@
+Az .env.local fájl dierkt nincs feltöltve! Azt pótolni kell!
+
+Egyenruha Webshop vizsgafeladat NEXT.js-sel készítve. Regisztrációhoz, vásárláshoz RobotZsaru nem szükséges. Ez csak egy vizsgafeladat, nem egy éles verzió. 
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
