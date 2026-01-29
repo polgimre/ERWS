@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import PromoModal from "@/components/PromoModal";
 import ProductListClient from "@/components/ProductListClient";
 import type { Product } from "@/lib/products";
 
@@ -14,10 +15,13 @@ export default async function Home() {
   return (
     <>
       <Navbar />
+      <PromoModal />
 
       <main style={{ maxWidth: 1100, margin: "0 auto", padding: "18px 16px" }}>
-      
+        <h1 style={{ margin: "0 0 6px" }}>Egyenruha Webshop</h1>
+        <p style={{ marginTop: 0, opacity: 0.75 }}>Akciók • Szűrők • Kosár</p>
 
+        <div id="products" />
         <ProductListClient products={products} />
       </main>
     </>

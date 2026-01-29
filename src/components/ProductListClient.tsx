@@ -6,6 +6,7 @@ import type { Product } from "@/lib/products";
 
 export default function ProductListClient({ products }: { products: Product[] }) {
   const [category, setCategory] = useState<string>("ALL");
+  const [group, setGroup] = useState<string>("ALL");
 
   const categories = useMemo(() => {
     const unique = Array.from(new Set(products.map((p) => p.category)));
@@ -13,21 +14,36 @@ export default function ProductListClient({ products }: { products: Product[] })
     return unique;
   }, [products]);
 
+  // groups: string[] mezőből gyűjtjük ki az összes lehetséges szervezetet
+  const groups = useMemo(() => {
+    const unique = Array.from(new Set(products.flatMap((p) => p.groups)));
+    unique.sort((a, b) => a.localeCompare(b, "hu"));
+    return unique;
+  }, [products]);
+
   const filtered = useMemo(() => {
-    if (category === "ALL") return products;
-    return products.filter((p) => p.category === category);
-  }, [products, category]);
+    return products.filter((p) => {
+      const okCategory = category === "ALL" || p.category === category;
+
+      // Ha a termék "ALL"-os, akkor minden szervezet filteren is megjelenik.
+      const okGroup =
+        group === "ALL" ||
+        p.groups.includes(group) ||
+        p.groups.includes("ALL");
+
+      return okCategory && okGroup;
+    });
+  }, [products, category, group]);
 
   return (
     <>
       {/* Filter sáv */}
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr auto",
           gap: 12,
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
+          alignItems: "end",
           marginTop: 12,
           padding: 12,
           border: "1px solid #e5e5e5",
@@ -35,13 +51,14 @@ export default function ProductListClient({ products }: { products: Product[] })
           background: "white",
         }}
       >
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <strong>Szűrés</strong>
-
+        {/* Kategória */}
+        <div>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>Kategória</div>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             style={{
+              width: "100%",
               padding: "8px 10px",
               borderRadius: 10,
               border: "1px solid #ddd",
@@ -49,7 +66,7 @@ export default function ProductListClient({ products }: { products: Product[] })
               cursor: "pointer",
             }}
           >
-            <option value="ALL">Összes kategória</option>
+            <option value="ALL">Összes</option>
             {categories.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -58,7 +75,32 @@ export default function ProductListClient({ products }: { products: Product[] })
           </select>
         </div>
 
-        <div style={{ opacity: 0.75 }}>
+        {/* Szervezet / csoport */}
+        <div>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>Szervezet</div>
+          <select
+            value={group}
+            onChange={(e) => setGroup(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "8px 10px",
+              borderRadius: 10,
+              border: "1px solid #ddd",
+              background: "white",
+              cursor: "pointer",
+            }}
+          >
+            <option value="ALL">Összes</option>
+            {groups.map((g) => (
+              <option key={g} value={g}>
+                {g}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Találatok */}
+        <div style={{ opacity: 0.75, textAlign: "right" }}>
           Találatok: <strong>{filtered.length}</strong> / {products.length}
         </div>
       </div>

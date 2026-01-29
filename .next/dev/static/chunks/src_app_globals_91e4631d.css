@@ -267,6 +267,10 @@
 @layer components;
 
 @layer utilities {
+  .fixed {
+    position: fixed;
+  }
+
   .flex {
     display: flex;
   }
@@ -282,6 +286,10 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+
+  .underline {
+    text-decoration-line: underline;
   }
 
   .transition {

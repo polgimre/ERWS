@@ -25,7 +25,7 @@ export default function CartClient() {
       <h1>Kosár</h1>
 
       {items.length === 0 ? (
-        <p style={{ opacity: 0.75 }}>A kosarad üres. (Ez még nem baj, csak túl jók az áraink, és megijedtél 😄)</p>
+        <p style={{ opacity: 0.75 }}>A kosarad üres</p>
       ) : (
         <>
           <div style={{ display: "grid", gap: 12, marginTop: 14 }}>
